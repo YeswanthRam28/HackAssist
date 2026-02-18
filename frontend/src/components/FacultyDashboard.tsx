@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
+import { API_BASE_URL } from '../api';
 
 interface Metric {
     label: string;
@@ -18,7 +19,7 @@ export const FacultyDashboard: React.FC = () => {
     useEffect(() => {
         const fetchAnalytics = async () => {
             try {
-                const response = await fetch('http://localhost:8000/api/analytics/department');
+                const response = await fetch(`${API_BASE_URL}/api/analytics/department`);
                 const data = await response.json();
                 setReport(data.report);
             } catch (error) {

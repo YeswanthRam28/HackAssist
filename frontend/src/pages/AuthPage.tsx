@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { useStore } from '../store/store';
 import { Canvas } from '@react-three/fiber';
 import { OrbitControls, Sphere, MeshDistortMaterial } from '@react-three/drei';
+import { API_BASE_URL } from '../api';
 
 export const AuthPage: React.FC = () => {
     const navigate = useNavigate();
@@ -30,7 +31,7 @@ export const AuthPage: React.FC = () => {
             : { name: formData.name, email: formData.email, password: formData.password };
 
         try {
-            const res = await fetch(`http://localhost:8000${endpoint}`, {
+            const res = await fetch(`${API_BASE_URL}${endpoint}`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(body)
@@ -66,7 +67,7 @@ export const AuthPage: React.FC = () => {
 
     const handleOnboardSubmit = async () => {
         try {
-            const res = await fetch(`http://localhost:8000/api/student/onboard`, {
+            const res = await fetch(`${API_BASE_URL}/api/student/onboard`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({

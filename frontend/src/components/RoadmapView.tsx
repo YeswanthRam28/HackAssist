@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { useStore } from '../store/store';
+import { API_BASE_URL } from '../api';
 
 interface Step {
     id: number;
@@ -25,7 +26,7 @@ export const RoadmapView: React.FC<RoadmapProps> = ({ hackathonId, studentId }) 
         const fetchRoadmap = async () => {
             setLoading(true);
             try {
-                const response = await fetch('http://localhost:8000/api/roadmap', {
+                const response = await fetch(`${API_BASE_URL}/api/roadmap`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({

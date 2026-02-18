@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
+import { API_BASE_URL } from '../api';
 
 export const HODDashboard: React.FC = () => {
     const [report, setReport] = useState<string>('Crunching Numbers...');
@@ -10,7 +11,7 @@ export const HODDashboard: React.FC = () => {
         setIsSyncing(true);
         setSyncLog('Accessing External Nodes...');
         try {
-            const response = await fetch('http://localhost:8000/api/sync', { method: 'POST' });
+            const response = await fetch(`${API_BASE_URL}/api/sync`, { method: 'POST' });
             const data = await response.json();
             setSyncLog(data.status === 'success' ? '✓ Synchronization Complete' : '⚠ Sync Node Failed');
             setTimeout(() => setSyncLog(null), 5000);
@@ -24,7 +25,7 @@ export const HODDashboard: React.FC = () => {
     useEffect(() => {
         const fetchAnalytics = async () => {
             try {
-                const response = await fetch('http://localhost:8000/api/analytics/department');
+                const response = await fetch(`${API_BASE_URL}/api/analytics/department`);
                 const data = await response.json();
                 setReport(data.report);
             } catch (error) {

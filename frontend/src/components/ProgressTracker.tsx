@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { useStore } from '../store/store';
 import { useNavigate } from 'react-router-dom';
+import { API_BASE_URL } from '../api';
 
 interface ParticipationRecord {
     hackathon: string;
@@ -19,7 +20,7 @@ export const ProgressTracker: React.FC = () => {
         const fetchProgress = async () => {
             if (!user?.student_id) return;
             try {
-                const response = await fetch(`http://localhost:8000/api/student_progress/${user.student_id}`);
+                const response = await fetch(`${API_BASE_URL}/api/student_progress/${user.student_id}`);
                 const data = await response.json();
                 setRecords(data);
             } catch (error) {

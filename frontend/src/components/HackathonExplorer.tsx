@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
+import { API_BASE_URL } from '../api';
 import { useStore } from '../store/store';
 import { useNavigate } from 'react-router-dom';
 
@@ -23,8 +24,8 @@ export const HackathonExplorer: React.FC = () => {
         const fetchHackathons = async () => {
             try {
                 const endpoint = user?.student_id
-                    ? `http://localhost:8000/api/recommendations/${user.student_id}`
-                    : 'http://localhost:8000/api/hackathons';
+                    ? `${API_BASE_URL}/api/recommendations/${user.student_id}`
+                    : `${API_BASE_URL}/api/hackathons`;
 
                 const response = await fetch(endpoint);
                 const data = await response.json();

@@ -1,6 +1,7 @@
 
 import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { API_BASE_URL } from '../api';
 import { useStore } from '../store/store';
 
 export const GeminiChat: React.FC = () => {
@@ -29,7 +30,7 @@ export const GeminiChat: React.FC = () => {
     setIsTyping(true);
 
     try {
-      const response = await fetch('http://localhost:8000/api/chat', {
+      const response = await fetch(`${API_BASE_URL}/api/chat`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -52,7 +53,7 @@ export const GeminiChat: React.FC = () => {
   const handleRegister = async () => {
     setIsRegistering(true);
     try {
-      await fetch('http://localhost:8000/api/register_hackathon', {
+      await fetch(`${API_BASE_URL}/api/register_hackathon`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

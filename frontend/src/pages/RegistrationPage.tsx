@@ -2,6 +2,7 @@ import React, { useState, useEffect, lazy, Suspense } from 'react';
 import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useStore } from '../store/store';
+import { API_BASE_URL } from '../api';
 
 const RoadmapView = lazy(() => import('../components/RoadmapView').then(m => ({ default: m.RoadmapView })));
 
@@ -33,7 +34,7 @@ export const RegistrationPage: React.FC = () => {
         }
 
         const fetchHack = async () => {
-            const res = await fetch(`http://localhost:8000/api/hackathon/${hackathonId}`);
+            const res = await fetch(`${API_BASE_URL}/api/hackathon/${hackathonId}`);
             if (!res.ok) return;
             const data = await res.json();
             setHackathon(data);
@@ -41,7 +42,7 @@ export const RegistrationPage: React.FC = () => {
 
         const checkMembership = async () => {
             if (!user?.student_id) return;
-            const res = await fetch(`http://localhost:8000/api/team/check/${user.student_id}/${hackathonId}`);
+            const res = await fetch(`${API_BASE_URL}/api/team/check/${user.student_id}/${hackathonId}`);
             const data = await res.json();
             if (data.status === 'exists') {
                 setTeamId(data.team_id);
@@ -57,7 +58,7 @@ export const RegistrationPage: React.FC = () => {
 
     const handleCreateTeam = async () => {
         if (!teamName) return;
-        const res = await fetch(`http://localhost:8000/api/team/create`, {
+        const res = await fetch(`${API_BASE_URL}/api/team/create`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
@@ -77,7 +78,7 @@ export const RegistrationPage: React.FC = () => {
 
     const handleJoinTeam = async () => {
         if (!teamCode) return;
-        const res = await fetch(`http://localhost:8000/api/team/join`, {
+        const res = await fetch(`${API_BASE_URL}/api/team/join`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
@@ -95,7 +96,7 @@ export const RegistrationPage: React.FC = () => {
     };
 
     const fetchMembers = async (tid: number) => {
-        const res = await fetch(`http://localhost:8000/api/team/members/${tid}`);
+        const res = await fetch(`${API_BASE_URL}/api/team/members/${tid}`);
         const data = await res.json();
         setMembers(data);
     };
