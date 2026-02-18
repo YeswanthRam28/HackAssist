@@ -26,9 +26,11 @@ class ChatResponse(BaseModel):
     intent: str
 
 class RoadmapRequest(BaseModel):
-    project_title: str
-    theme: str
-    tech_stack: List[str]
+    project_title: Optional[str] = None
+    theme: Optional[str] = None
+    tech_stack: Optional[List[str]] = None
+    user_id: Optional[str] = None
+    hackathon_id: Optional[str] = None
 
 class RoadmapStep(BaseModel):
     id: int
