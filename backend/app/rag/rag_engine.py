@@ -1,7 +1,7 @@
 import os
 from typing import List
 from langchain_google_genai import GoogleGenerativeAIEmbeddings
-from langchain_community.vectorstores import Chroma
+from langchain_postgres import PGVector
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 from langchain_core.documents import Document
 from dotenv import load_dotenv
@@ -18,10 +18,15 @@ class RAGEngine:
             chunk_size=1000,
             chunk_overlap=200
         )
-        self.persist_directory = "./chroma_db"
-        self.vector_store = Chroma(
-            persist_directory=self.persist_directory,
-            embedding_function=self.embeddings
+        # Cloud-native PGVector on Neon
+        self.connection_string = os.getenv("DATABASE_URL")
+        self.collection_name = "hackathon_embeddings"
+        
+        self.vector_store = PGVector(
+            embeddings=self.embeddings,
+            collection_name=self.collection_name,
+            connection=self.connection_string,
+            use_jsonb=True,
         )
 
     def add_documents(self, documents: List[str]):
