@@ -1,0 +1,107 @@
+{
+    "unstop": [
+        {
+            "name": "CrackNCode",
+            "description": "PSG Institute of Technology and Applied Research (PSG ITAR), Coimbatore. A high-stakes coding and strategy challenge.",
+            "deadline": "2 days left",
+            "skills": [
+                "Quizzes",
+                "Strategy",
+                "Treasure Hunt"
+            ]
+        },
+        {
+            "name": "Smart Horizon: 48-Hour International Hackathon",
+            "description": "New Horizon College of Engineering (NHCE), Bengaluru. A 48-hour global innovation marathon.",
+            "deadline": "29 days left",
+            "skills": [
+                "Software Development",
+                "Undergraduate",
+                "Postgraduate"
+            ]
+        },
+        {
+            "name": "Jaipuria Indore - Business Analytics Hackathon 2026",
+            "description": "Jaipuria Institute of Management (JIM), Indore. Solving complex business problems with data science.",
+            "deadline": "15 days left",
+            "skills": [
+                "Machine Learning",
+                "Data Science",
+                "Data Analysis",
+                "Business Intelligence"
+            ]
+        },
+        {
+            "name": "India Innovates 2026",
+            "description": "Municipal Corporation of Delhi. Propose innovative urban solutions for city management and sustainability.",
+            "deadline": "30 days left",
+            "skills": [
+                "Urban Planning",
+                "Innovation",
+                "Problem Solving"
+            ]
+        },
+        {
+            "name": "Clash of Coders - Hackathon '26",
+            "description": "JECRC Foundation. A competitive arena for elite coders to build and innovate at scale.",
+            "deadline": "25 days left",
+            "skills": [
+                "Applied AI",
+                "Hackathon",
+                "Coding"
+            ]
+        }
+    ],
+    "devfolio": [
+        {
+            "name": "Prompt The Future",
+            "description": "A Generative AI-focused hackathon tackling the future of LLMs and NLP agents.",
+            "deadline": "Starts 19/02/26",
+            "skills": [
+                "GenAI",
+                "NLP",
+                "LLMs"
+            ]
+        },
+        {
+            "name": "Diversion 2K26",
+            "description": "A massive offline hackathon event with no theme restrictions, encouraging cross-domain innovation.",
+            "deadline": "Starts 28/02/26",
+            "skills": [
+                "Fullstack",
+                "Innovation",
+                "Software Development"
+            ]
+        },
+        {
+            "name": "HackSRM 7.0",
+            "description": "SRM University's premier national hackathon for hardware and software builders.",
+            "deadline": "Starts 25/02/26",
+            "skills": [
+                "IoT",
+                "Web3",
+                "Web Development"
+            ]
+        },
+        {
+            "name": "Electrothon 8.0",
+            "description": "A national-level event focusing on the intersection of hardware, electronics, and digital solutions.",
+            "deadline": "Starts 14/03/26",
+            "skills": [
+                "Electronics",
+                "Hardware",
+                "Python"
+            ]
+        },
+        {
+            "name": "DoubleSlash 4.0",
+            "description": "Bringing design and engineering together to build beautiful, functional digital products.",
+            "deadline": "Starts 04/03/26",
+            "skills": [
+                "React",
+                "UI/UX",
+                "Product Design"
+            ]
+        }
+    ]
+}

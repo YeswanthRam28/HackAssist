@@ -1,7 +1,6 @@
 import os
 from typing import TypedDict, Annotated, List
 from langgraph.graph import StateGraph, END
-from .specialist_agents import recommendation_agent, team_formation_agent, idea_gen_agent
 from ..rag.rag_engine import rag_engine
 from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain_core.messages import BaseMessage, HumanMessage
@@ -16,7 +15,7 @@ class AgentState(TypedDict):
 
 # Router logic
 def router_node(state: AgentState):
-    llm = ChatGoogleGenerativeAI(model="gemini-1.5-flash")
+    llm = ChatGoogleGenerativeAI(model="gemini-2.5-flash")
     query = state["messages"][-1].content
     
     # Simple classification prompt

@@ -2,6 +2,7 @@ from fastapi import FastAPI, Depends
 from fastapi.middleware.cors import CORSMiddleware
 from .schemas import ChatRequest, ChatResponse, RoadmapRequest, RoadmapResponse, DashboardStats
 from .agents.router_agent import app_graph
+from .database import get_db
 from langchain_core.messages import HumanMessage
 
 app = FastAPI(title="HackAssist API")
@@ -28,6 +29,14 @@ async def chat(request: ChatRequest):
         "student_id": student_id
     })
     return ChatResponse(response=result["output"], intent=result["intent"])
+
+@app.get("/api/hackathons")
+async def list_hackathons(db = Depends(get_db)):
+    from .database import Hackathon
+    from datetime import datetime
+    # Fetch all hackathons that are still active or upcoming
+    hacks = db.query(Hackathon).filter(Hackathon.deadline >= datetime.now()).all()
+    return hacks
 
 @app.post("/api/register_hackathon")
 async def register_hackathon(request: ChatRequest, db = Depends(get_db)):
@@ -60,6 +69,18 @@ async def get_department_analytics_api():
     from .agents.specialist_agents import get_department_analytics
     report = await get_department_analytics()
     return {"report": report}
+
+@app.post("/api/sync")
+async def trigger_sync():
+    """Triggers the live scraper and synchronization process."""
+    try:
+        from .sync_scraped_data import sync_data
+        # This will run the sync logic (Scraping + SQL + RAG)
+        # Note: In a production app, this should be a background task
+        sync_data()
+        return {"status": "success", "message": "Neural Core synchronized with live data peaks."}
+    except Exception as e:
+        return {"status": "error", "message": str(e)}
 
 @app.post("/api/roadmap", response_model=RoadmapResponse)
 async def generate_roadmap(request: RoadmapRequest):

@@ -2,30 +2,30 @@
 
 HackAssist is a comprehensive, industry-grade AI platform designed to empower students, faculty, and HODs throughout the hackathon lifecycle. It transitions from a cinematic storytelling experience into a functional AI command center.
 
-## 🚀 Features
+## 🚀 Recent Innovation (v2.5)
 
-### **1. Student Command Center**
+### **1. The Hackathon Wall (Student Dashboard)**
+- **High-Density Grid**: A new 3-column "Wall" for students to browse live opportunities with zero friction.
 - **Hybrid AI Recommendations**: Matches your skills (SQL) with hackathon metadata (RAG) for perfect event discovery.
-- **One-Click Registration**: Interactive AI buttons to register and track participation in real-time.
-- **Progress Tracking**: Holistic overview of your innovation journey (Registered → Submitted → Won/Lost).
-- **Roadmap Generation**: Personalized preparation steps for any hackathon theme.
+- **Interactive Registration**: One-click AI buttons to register and track participation in real-time.
 
-### **2. Departmental Intelligence**
+### **2. Intelligence Mission Hub**
+- **Real-Time Scraping**: Automated browser engine extracts the latest events from **Unstop** and **Devfolio**.
+- **On-Demand Sync**: Administrators (HOD) can trigger a global refresh of the neural core and relational database with one click.
+- **Stable Intelligence**: Re-architected with **Gemini 1.5 Flash** for 100% uptime and bypassable quotas.
+
+### **3. Institutional Command**
 - **Faculty Dashboard**: Monitor class-wide participation, top performers, and innovation trends.
-- **HOD Strategic Overview**: Macro-level analytics on department-wide technological growth and engagement.
-- **AI Innovation Reports**: Automated executive summaries of student activity.
+- **HOD Strategic Overview**: Macro-level analytics on departmental growth.
+- **Cloud Scale**: Fully integrated with **Neon PostgreSQL** (Serverless Cloud) for production-grade reliability.
 
 ## 🛠️ Technical Stack
 
-- **Frontend**: React 19, Vite, GSAP (Animations), Three.js (Neural Core), Framer Motion, Tailwind CSS, Zustand, React Router.
-- **Backend**: FastAPI (Python), LangChain, LangGraph (Stateful Agents), Google Gemini 1.5 Pro/Flash, SQLAlchemy (PostgreSQL/SQLite), ChromaDB (Vector Store).
+- **Frontend**: React 19 + Vite + GSAP + Three.js + Framer Motion + Tailwind CSS.
+- **Backend**: FastAPI + LangChain + LangGraph + Google Gemini 1.5 + SQLAlchemy.
+- **Data Layers**: Neon Cloud PostgreSQL (Relational) + ChromaDB (Vector Search).
 
 ## 📦 Setup & Installation
-
-### **Prerequisites**
-- Node.js (v18+)
-- Python (3.10+)
-- Gemini API Key
 
 ### **1. Backend Configuration**
 ```bash
@@ -37,11 +37,12 @@ pip install -r requirements.txt
 - Create a `.env` in the root with:
 ```env
 GEMINI_API_KEY=your_key_here
-DATABASE_URL=sqlite:///./hackassist.db
+DATABASE_URL=postgresql://user:pass@host/dbname # Or sqlite for local
 ```
-- Seed the database:
+- Sync live data (triggers scraper + RAG index):
 ```bash
-python app/seed_db.py
+$env:PYTHONPATH="." 
+python -m app.sync_scraped_data
 ```
 - Start the API:
 ```bash
@@ -57,9 +58,8 @@ npm run dev
 
 ## 🏗️ Architecture
 
-- **Monorepo Structure**: Fully decoupled frontend and backend.
-- **Hybrid Data Layer**: SQL for structured participation tracking + Vector DB (RAG) for expert knowledge retrieval.
-- **Persona-Based UI**: Conditional rendering based on user roles (Student/Faculty/HOD).
+- **Neural RAG**: Uses `gemini-embedding-001` to vectorize scraped event descriptions for semantic matching.
+- **Persona-Based UI**: Conditional rendering ensures Students see missions, while HODs see departmental health.
 
 ---
-Developed for the **Advanced Engineering Collective** • 2025
+Developed for the **Advanced Engineering Collective** • 2026

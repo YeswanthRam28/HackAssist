@@ -11,7 +11,7 @@ load_dotenv()
 class RAGEngine:
     def __init__(self):
         self.embeddings = GoogleGenerativeAIEmbeddings(
-            model="models/embedding-001",
+            model="models/gemini-embedding-001",
             google_api_key=os.getenv("GEMINI_API_KEY")
         )
         self.text_splitter = RecursiveCharacterTextSplitter(
@@ -24,12 +24,15 @@ class RAGEngine:
             embedding_function=self.embeddings
         )
 
-    def ingest_text(self, text: str, metadata: dict = None):
-        """Chunks and ingests raw text into the vector store."""
-        chunks = self.text_splitter.split_text(text)
-        docs = [Document(page_content=chunk, metadata=metadata or {}) for chunk in chunks]
-        self.vector_store.add_documents(docs)
-        self.vector_store.persist()
+    def add_documents(self, documents: List[str]):
+        """Bulk adds raw text documents to the vector store."""
+        all_docs = []
+        for doc_text in documents:
+            chunks = self.text_splitter.split_text(doc_text)
+            all_docs.extend([Document(page_content=chunk) for chunk in chunks])
+        self.vector_store.add_documents(all_docs)
+        if hasattr(self.vector_store, 'persist'):
+            self.vector_store.persist()
 
     def query(self, query: str, k: int = 3) -> List[Document]:
         """Performs a similarity search in the vector store."""

@@ -1,6 +1,9 @@
 fastapi
 uvicorn
+sqlalchemy
 langchain
+langchain-community
+langchain-google-genai
 langgraph
 google-generativeai
 chromadb

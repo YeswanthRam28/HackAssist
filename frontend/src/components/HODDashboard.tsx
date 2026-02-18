@@ -3,6 +3,23 @@ import { motion } from 'framer-motion';
 
 export const HODDashboard: React.FC = () => {
     const [report, setReport] = useState<string>('Crunching Numbers...');
+    const [isSyncing, setIsSyncing] = useState(false);
+    const [syncLog, setSyncLog] = useState<string | null>(null);
+
+    const handleSync = async () => {
+        setIsSyncing(true);
+        setSyncLog('Accessing External Nodes...');
+        try {
+            const response = await fetch('http://localhost:8000/api/sync', { method: 'POST' });
+            const data = await response.json();
+            setSyncLog(data.status === 'success' ? '✓ Synchronization Complete' : '⚠ Sync Node Failed');
+            setTimeout(() => setSyncLog(null), 5000);
+        } catch (error) {
+            setSyncLog('⚠ Critical Link Failure');
+        } finally {
+            setIsSyncing(false);
+        }
+    };
 
     useEffect(() => {
         const fetchAnalytics = async () => {
@@ -18,11 +35,32 @@ export const HODDashboard: React.FC = () => {
     }, []);
 
     return (
-        <div className="py-12 bg-black min-h-screen">
+        <div className="py-12 bg-black min-h-screen font-mono">
             <div className="container mx-auto px-6">
-                <header className="mb-12 border-b border-white/5 pb-12">
-                    <h1 className="text-4xl md:text-6xl font-serif text-white mb-4">Departmental Intelligence</h1>
-                    <p className="font-mono text-xs text-gray-500 uppercase tracking-[0.4em]">Head of Department • Innovation Strategy</p>
+                <header className="mb-12 border-b border-white/5 pb-12 flex justify-between items-end">
+                    <div>
+                        <h1 className="text-4xl md:text-6xl font-serif text-white mb-4 italic">Departmental Intelligence</h1>
+                        <p className="font-mono text-[10px] text-gray-500 uppercase tracking-[0.4em]">Head of Department • Innovation Strategy</p>
+                    </div>
+
+                    <div className="flex flex-col items-end gap-3">
+                        {syncLog && (
+                            <motion.span
+                                initial={{ opacity: 0, x: 10 }}
+                                animate={{ opacity: 1, x: 0 }}
+                                className="text-[8px] uppercase tracking-widest text-white/40"
+                            >
+                                {syncLog}
+                            </motion.span>
+                        )}
+                        <button
+                            onClick={handleSync}
+                            disabled={isSyncing}
+                            className={`px-6 py-3 rounded-full border border-white/10 text-[10px] uppercase tracking-[0.3em] transition-all hover:bg-white hover:text-black hover:border-white ${isSyncing ? 'animate-pulse opacity-50' : ''}`}
+                        >
+                            {isSyncing ? 'Syncing...' : 'Initialize Live Sync'}
+                        </button>
+                    </div>
                 </header>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-12">

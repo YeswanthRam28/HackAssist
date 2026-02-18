@@ -24,7 +24,9 @@ ENV/
 # Database & AI
 .env
 *.sqlite3
+hackassist.db
 backend/chroma_db/
+chroma_db/
 
 # Editor
 .vscode/*
