@@ -18,6 +18,11 @@ HackAssist is a comprehensive, industry-grade AI platform designed to empower st
 - **Faculty Dashboard**: Monitor class-wide participation, top performers, and innovation trends.
 - **HOD Strategic Overview**: Macro-level analytics on departmental growth.
 - **Cloud Scale**: Fully integrated with **Neon PostgreSQL** (Serverless Cloud) for production-grade reliability.
+### **4. Strategic Mission Flow (v2.6)**
+- **Squad Persistence**: Your unit memberships are now stored in the neural core. Return to any mission hub to see your squad restored instantly.
+- **AI Strategic Roadmaps**: A custom 5-step strategic path is now generated for every mission based on hackathon themes and your skills.
+- **Deep-Link Portals**: Navigate directly from operation trackers or recommendation cards to specific mission hubs (Create/Join/Status).
+- **Universal Mission Resolution**: Backend logic now resolves missions by both numeric ID and human-readable names for 100% link stability.
 
 ## 🛠️ Technical Stack
 

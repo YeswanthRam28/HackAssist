@@ -5,7 +5,7 @@ import { useStore } from '../store/store';
 
 export const GeminiChat: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const { chatHistory, addMessage } = useStore();
+  const { chatHistory, addMessage, user } = useStore();
   const [inputValue, setInputValue] = useState('');
   const [isTyping, setIsTyping] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
@@ -19,10 +19,11 @@ export const GeminiChat: React.FC = () => {
   const [lastIntent, setLastIntent] = useState('');
   const [isRegistering, setIsRegistering] = useState(false);
 
-  const handleSend = async () => {
-    if (!inputValue.trim() || isTyping) return;
+  const handleSend = async (manualText?: string) => {
+    const textToSend = manualText || inputValue;
+    if (!textToSend.trim() || isTyping) return;
 
-    const userMsg = inputValue;
+    const userMsg = textToSend;
     addMessage({ role: 'user', text: userMsg });
     setInputValue('');
     setIsTyping(true);
@@ -31,7 +32,10 @@ export const GeminiChat: React.FC = () => {
       const response = await fetch('http://localhost:8000/api/chat', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ message: userMsg, user_id: "1" }),
+        body: JSON.stringify({
+          message: userMsg,
+          user_id: user?.student_id?.toString() || "anonymous"
+        }),
       });
 
       const data = await response.json();
@@ -51,7 +55,10 @@ export const GeminiChat: React.FC = () => {
       await fetch('http://localhost:8000/api/register_hackathon', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ message: "1", user_id: "1" }), // Mocking hackathon_id 1
+        body: JSON.stringify({
+          message: "1",
+          user_id: user?.student_id?.toString() || "1"
+        }), // Mocking hackathon_id 1
       });
       addMessage({ role: 'ai', text: "✓ Successfully registered for the AI Innovation Challenge. Tracking initialized." });
       setLastIntent('');
@@ -112,6 +119,27 @@ export const GeminiChat: React.FC = () => {
               )}
             </div>
 
+            <div className="px-4 py-2 border-t border-white/5 bg-black/50 flex flex-wrap gap-2">
+              {[
+                "Suggest healthcare AI ideas",
+                "Recommend hackathons for me",
+                "Help me form a team"
+              ].map((chip) => (
+                <button
+                  key={chip}
+                  onClick={() => {
+                    setInputValue(chip);
+                    // Trigger send immediately for better UX
+                    const syntheticEvent = { key: 'Enter', preventDefault: () => { } } as any;
+                    setTimeout(() => handleSend(chip), 0);
+                  }}
+                  className="px-3 py-1 bg-white/5 border border-white/10 rounded-full text-[9px] text-white/40 hover:text-white hover:border-white/20 transition-all font-mono"
+                >
+                  {chip}
+                </button>
+              ))}
+            </div>
+
             <div className="p-4 border-t border-white/5 flex gap-2 bg-black">
               <input
                 type="text"
@@ -122,7 +150,7 @@ export const GeminiChat: React.FC = () => {
                 className="flex-1 bg-white/5 border border-white/5 rounded-lg px-4 py-2 text-xs focus:outline-none focus:border-white/20 text-white placeholder:text-gray-700 font-mono"
               />
               <button
-                onClick={handleSend}
+                onClick={() => handleSend()}
                 disabled={isTyping}
                 className="bg-white hover:bg-gray-200 text-black px-4 py-2 rounded-lg transition-colors disabled:opacity-20 flex items-center justify-center"
               >

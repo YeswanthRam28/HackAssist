@@ -30,20 +30,21 @@ def router_node(state: AgentState):
 
 # Node for Specialists
 async def execute_task(state: AgentState):
-    from .specialist_agents import get_recommendations, get_team_suggestions, idea_gen_agent, get_department_analytics
+    from .specialist_agents import get_recommendations_text, get_team_suggestions, get_hackathon_ideas, get_department_analytics
     
     query = state["messages"][-1].content
     intent = state["intent"]
     student_id = state.get("student_id", 1) # Default to 1 for demo
     
     if "RECOMMENDATION" in intent:
-        res = await get_recommendations(student_id, state["context"])
+        res = await get_recommendations_text(student_id, state["context"])
     elif "TEAM" in intent:
         res = await get_team_suggestions(student_id)
     elif "ANALYTICS" in intent:
         res = await get_department_analytics()
     else:
-        res = await idea_gen_agent.ainvoke({"theme": query, "tech_stack": "React, Python"})
+        # Default to idea generation
+        res = await get_hackathon_ideas(theme=query, tech_stack="React, Python, AI")
     
     return {"output": res}
 

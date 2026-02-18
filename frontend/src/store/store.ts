@@ -5,20 +5,36 @@ interface ChatMessage {
     text: string;
 }
 
+interface User {
+    student_id: number;
+    name: string;
+    email: string;
+    skills: string[];
+    interests: string[];
+    experience_level?: string;
+    isOnboarded?: boolean;
+}
+
 interface AppState {
     chatHistory: ChatMessage[];
     addMessage: (msg: ChatMessage) => void;
-    user: { name: string; skills: string[] } | null;
+    user: User | null;
     userRole: 'student' | 'faculty' | 'hod';
-    setUser: (user: { name: string; skills: string[] }) => void;
+    setUser: (user: User | null) => void;
     setRole: (role: 'student' | 'faculty' | 'hod') => void;
 }
 
+const savedUser = localStorage.getItem('hackassist_user');
+
 export const useStore = create<AppState>((set) => ({
-    chatHistory: [{ role: 'ai', text: 'Neural Node v2.5 online. Awaiting query...' }],
+    chatHistory: [{ role: 'ai', text: 'Neural Node v2.5 online. Awaiting profile synchronization...' }],
     addMessage: (msg) => set((state) => ({ chatHistory: [...state.chatHistory, msg] })),
-    user: { name: "Yeswanth Ram", skills: ["Python", "React", "AI"] },
+    user: savedUser ? JSON.parse(savedUser) : null,
     userRole: 'student',
-    setUser: (user) => set({ user }),
+    setUser: (user) => {
+        if (user) localStorage.setItem('hackassist_user', JSON.stringify(user));
+        else localStorage.removeItem('hackassist_user');
+        set({ user });
+    },
     setRole: (role) => set({ userRole: role }),
 }));

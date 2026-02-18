@@ -14,19 +14,28 @@ def seed():
     students = [
         Student(
             name="Yeswanth Ram",
+            email="yeswanth@test.com",
+            password_hash="hashed_pass123",
             department="CSE",
+            experience_level="Expert",
             skills=["Python", "React", "AI"],
             interests=["Generative AI", "Web Development"]
         ),
         Student(
             name="John Doe",
+            email="john@test.com",
+            password_hash="hashed_pass123",
             department="IT",
+            experience_level="Intermediate",
             skills=["Java", "Spring Boot", "SQL"],
             interests=["Backend Systems"]
         ),
         Student(
             name="Alice Smith",
+            email="alice@test.com",
+            password_hash="hashed_pass123",
             department="ECE",
+            experience_level="Beginner",
             skills=["C++", "Embedded Systems"],
             interests=["Robotics", "IoT"]
         )

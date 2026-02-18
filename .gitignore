@@ -33,3 +33,9 @@ chroma_db/
 !.vscode/extensions.json
 .idea
 .DS_Store
+
+# Brain Artifacts & Scraped Data
+.gemini/
+brain/
+scraped_data.json
+backend/scraped_data.json

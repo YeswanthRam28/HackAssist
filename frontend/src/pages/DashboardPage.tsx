@@ -4,7 +4,6 @@ import { GeminiChat } from '../components/GeminiChat';
 
 import { HackathonExplorer } from '../components/HackathonExplorer';
 
-const RoadmapView = lazy(() => import('../components/RoadmapView').then(m => ({ default: m.RoadmapView })));
 const FacultyDashboard = lazy(() => import('../components/FacultyDashboard').then(m => ({ default: m.FacultyDashboard })));
 const HODDashboard = lazy(() => import('../components/HODDashboard').then(m => ({ default: m.HODDashboard })));
 const ProgressTracker = lazy(() => import('../components/ProgressTracker').then(m => ({ default: m.ProgressTracker })));
@@ -23,10 +22,6 @@ export const DashboardPage: React.FC = () => {
                         </div>
 
                         <div className="grid grid-cols-1 lg:grid-cols-2 gap-24">
-                            <div>
-                                <h2 className="font-serif text-3xl mb-12 text-white/80">Project Roadmap</h2>
-                                <RoadmapView />
-                            </div>
                             <div>
                                 <h2 className="font-serif text-3xl mb-12 text-white/80">Operation Status</h2>
                                 <ProgressTracker />

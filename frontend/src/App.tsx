@@ -1,14 +1,24 @@
 
-import React, { useState, useEffect, Suspense } from 'react';
+import React, { useState, useEffect, Suspense, lazy } from 'react';
 import { Navbar } from './components/Navbar';
 import { CustomCursor } from './components/CustomCursor';
 import { useSmoothScroll } from './hooks/useSmoothScroll';
 
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { LandingPage } from './pages/LandingPage';
 import { DashboardPage } from './pages/DashboardPage';
+import { AuthPage } from './pages/AuthPage';
+const RegistrationPage = lazy(() => import('./pages/RegistrationPage').then(m => ({ default: m.RegistrationPage })));
+import { useStore } from './store/store';
+
+const ProtectedRoute: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  const { user } = useStore();
+  if (!user || !user.isOnboarded) return <Navigate to="/auth" replace />;
+  return <>{children}</>;
+};
 
 const App: React.FC = () => {
+  const { user } = useStore();
   const [isLoaded, setIsLoaded] = useState(false);
   useSmoothScroll();
 
@@ -43,13 +53,29 @@ const App: React.FC = () => {
         <Suspense fallback={<div className="h-20 bg-black flex items-center justify-center font-mono text-[10px] text-white/20">Accessing Node...</div>}>
           <Routes>
             <Route path="/" element={<LandingPage />} />
-            <Route path="/app" element={<DashboardPage />} />
+            <Route path="/auth" element={<AuthPage />} />
+            <Route
+              path="/app"
+              element={
+                <ProtectedRoute>
+                  <DashboardPage />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/register/:hackathonId"
+              element={
+                <ProtectedRoute>
+                  <RegistrationPage />
+                </ProtectedRoute>
+              }
+            />
           </Routes>
         </Suspense>
 
         <footer className="py-24 border-t border-white/5 text-center bg-black">
           <p className="font-mono text-[10px] uppercase tracking-[0.6em] text-gray-700">
-            Neural Infrastructure • Department of Intelligent Systems • 2025
+            Neural Infrastructure • AEC 2026 • Encrypted Channel
           </p>
         </footer>
       </div>

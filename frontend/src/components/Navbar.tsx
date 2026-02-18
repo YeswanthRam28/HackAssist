@@ -3,10 +3,18 @@ import { motion } from 'framer-motion';
 import { Link, useLocation } from 'react-router-dom';
 import { useStore } from '../store/store';
 
+import { useNavigate } from 'react-router-dom';
+
 export const Navbar: React.FC = () => {
-  const { userRole, setRole } = useStore();
+  const { userRole, setRole, user, setUser } = useStore();
   const location = useLocation();
+  const navigate = useNavigate();
   const isDashboard = location.pathname === '/app';
+
+  const handleLogout = () => {
+    setUser(null);
+    navigate('/');
+  };
 
   return (
     <motion.nav
@@ -43,21 +51,37 @@ export const Navbar: React.FC = () => {
         )}
       </div>
 
-      <div className="hidden md:flex gap-12">
-        {['Journey', 'Tech', 'Features'].map((item) => (
-          <Link
-            key={item}
-            to={item === 'Features' ? '/app' : '/'}
-            className="font-mono text-[9px] uppercase tracking-[0.4em] text-white/40 hover:text-white transition-colors"
-          >
-            {item}
-          </Link>
-        ))}
+      <div className="hidden md:flex items-center gap-12">
+        {user ? (
+          <div className="flex items-center gap-8">
+            <span className="font-mono text-[9px] text-white/20 uppercase tracking-[0.2em]">Persona: <span className="text-white/60">{user.name}</span></span>
+            <button
+              onClick={handleLogout}
+              className="font-mono text-[9px] uppercase tracking-[0.4em] text-red-500/40 hover:text-red-500 transition-colors"
+            >
+              Terminate Session
+            </button>
+            <Link to="/app" className="border border-white/10 px-6 py-2 rounded-full font-mono text-[9px] uppercase tracking-[0.4em] hover:bg-white hover:text-black transition-all">
+              v2.5_CORE
+            </Link>
+          </div>
+        ) : (
+          <>
+            {['Journey', 'Tech', 'Features'].map((item) => (
+              <Link
+                key={item}
+                to={item === 'Features' ? '/app' : '/'}
+                className="font-mono text-[9px] uppercase tracking-[0.4em] text-white/40 hover:text-white transition-colors"
+              >
+                {item}
+              </Link>
+            ))}
+            <Link to="/auth" className="border border-white/10 px-6 py-2 rounded-full font-mono text-[9px] uppercase tracking-[0.4em] hover:bg-white hover:text-black transition-all">
+              Initialize Protocol
+            </Link>
+          </>
+        )}
       </div>
-
-      <Link to="/app" className="border border-white/10 px-6 py-2 rounded-full font-mono text-[9px] uppercase tracking-[0.4em] hover:bg-white hover:text-black transition-all">
-        v2.5_CORE
-      </Link>
     </motion.nav>
   );
 };
